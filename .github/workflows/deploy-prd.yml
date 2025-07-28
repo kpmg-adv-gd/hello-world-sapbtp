@@ -1,4 +1,4 @@
-name: Deploy to Dev (Cloud Foundry)
+name: Deploy to Prd (Cloud Foundry)
 
 on:
   push:
@@ -14,8 +14,8 @@ jobs:
       - name: 🔄 Checkout codice
         uses: actions/checkout@v4
 
-      - name: Usa manifest per ambiente Dev
-        run: cp manifest-dev.yml manifest.yml
+      - name: Usa manifest per ambiente Prd
+        run: cp manifest-prd.yml manifest.yml
 
 
       - name: 🔧 Installa cf CLI via dpkg
@@ -30,12 +30,12 @@ jobs:
           set -e
           echo "🌐 API endpoint: ${{ secrets.CF_API }}"
           echo "👤 Login con utente: ${{ secrets.CF_USERNAME }}"
-          cf login -a '${{ secrets.CF_API }}' -u '${{ secrets.CF_USERNAME }}' -p '${{ secrets.CF_PASSWORD }}' -o '${{ secrets.CF_ORG }}' -s '${{ secrets.CF_SPACE_DEV }}'
+          cf login -a '${{ secrets.CF_API }}' -u '${{ secrets.CF_USERNAME }}' -p '${{ secrets.CF_PASSWORD }}' -o '${{ secrets.CF_ORG }}' -s '${{ secrets.CF_SPACE_PROD }}'
 
-      - name: 🚀 Deploy su ambiente Dev
+      - name: 🚀 Deploy su ambiente Prd
         run: |
           set -e
           echo "📂 Lista file in workspace:"
           ls -la
           echo "📦 Avvio cf push..."
-          cf push --var ENV=dev
+          cf push --var ENV=prd
