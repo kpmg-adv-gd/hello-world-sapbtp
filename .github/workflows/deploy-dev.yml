@@ -12,12 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Installazione CLI Cloud Foundry
-        run: |
-          curl -L "https://packages.cloudfoundry.org/stable?release=linux64" -o cf-cli.tgz
-          tar -xzf cf-cli.tgz
-          sudo mv cf /usr/local/bin
-
       - name: Login su Cloud Foundry
         run: |
           cf api ${{ secrets.CF_API }}
