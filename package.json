@@ -1,0 +1,14 @@
+{
+    "name": "hello-world-sapbtp",
+    "version": "1.0.0",
+    "description": "Progetto Node.js Hello World pronto per SAP BTP",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "express": "^4.18.2"
+    },
+    "author": "",
+    "license": "ISC"
+}
