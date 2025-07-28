@@ -26,9 +26,7 @@ jobs:
           set -e
           echo "🌐 API endpoint: ${{ secrets.CF_API }}"
           echo "👤 Login con utente: ${{ secrets.CF_USERNAME }}"
-          cf api "${{ secrets.CF_API }}" -v
-          cf auth "${{ secrets.CF_USERNAME }}" "${{ secrets.CF_PASSWORD }}" -v
-          cf target -o "${{ secrets.CF_ORG }}" -s "${{ secrets.CF_SPACE_DEV }}" -v
+          cf login -a ${{ secrets.CF_API }} -u ${{ secrets.CF_USERNAME }} -p ${{ secrets.CF_PASSWORD }} -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE_DEV }}
 
       - name: 🚀 Deploy su ambiente Dev
         run: |
