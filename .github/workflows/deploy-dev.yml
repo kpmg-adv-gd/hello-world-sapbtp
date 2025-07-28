@@ -18,17 +18,17 @@ jobs:
           echo "📦 Scarico la CLI di Cloud Foundry..."
           curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary" -o cf-cli.tgz
           tar -xzf cf-cli.tgz
-          sudo mv cf /usr/local/bin
-          cf version
+          sudo mv cf-cli /usr/local/bin
+          cf-cli version
 
       - name: 🔐 Login su Cloud Foundry
         run: |
           set -e
           echo "🌐 API endpoint: ${{ secrets.CF_API }}"
           echo "👤 Login con utente: ${{ secrets.CF_USERNAME }}"
-          cf api "${{ secrets.CF_API }}" -v
-          cf auth "${{ secrets.CF_USERNAME }}" "${{ secrets.CF_PASSWORD }}" -v
-          cf target -o "${{ secrets.CF_ORG }}" -s "${{ secrets.CF_SPACE_DEV }}" -v
+          cf-cli api "${{ secrets.CF_API }}" -v
+          cf-cli auth "${{ secrets.CF_USERNAME }}" "${{ secrets.CF_PASSWORD }}" -v
+          cf-cli target -o "${{ secrets.CF_ORG }}" -s "${{ secrets.CF_SPACE_DEV }}" -v
 
       - name: 🚀 Deploy su ambiente Dev
         run: |
@@ -36,4 +36,4 @@ jobs:
           echo "📂 Lista file in workspace:"
           ls -la
           echo "📦 Avvio cf push..."
-          cf push --var ENV=dev -v
+          cf-cli push --var ENV=dev -v
