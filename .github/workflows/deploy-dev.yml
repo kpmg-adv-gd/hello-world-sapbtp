@@ -16,9 +16,9 @@ jobs:
       - name: 🔧 Setup cf CLI
         run: |
           echo "📦 Scarico la CLI di Cloud Foundry..."
-          curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary" -o cf-cli.tgz
-          tar -xzf cf-cli.tgz
-          sudo mv cf-cli /usr/local/bin/cf
+          curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary" -o cf
+          chmod +x cf
+          sudo mv cf /usr/local/bin/cf
           cf version
 
       - name: 🔐 Login su Cloud Foundry
