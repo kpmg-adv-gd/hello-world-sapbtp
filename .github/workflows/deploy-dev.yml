@@ -13,14 +13,11 @@ jobs:
       - name: 🔄 Checkout codice
         uses: actions/checkout@v4
 
-      - name: 🔧 Scarico la CLI di Cloud Foundry
+      - name: 🔧 Installa cf CLI via dpkg
         run: |
-          echo "📦 Scarico la CLI di Cloud Foundry..."
-          curl -L "https://packages.cloudfoundry.org/stable?release=debian64" -o cf
-          chmod +x cf
-          file cf
-          sudo mv cf /usr/local/bin/cf
-          file /usr/local/bin/cf
+          echo "📦 Scarico pacchetto Debian cf CLI..."
+          curl -L "https://packages.cloudfoundry.org/stable?release=debian64" -o cf.deb
+          sudo dpkg -i cf.deb
           cf version
 
       - name: 🔐 Login su Cloud Foundry
