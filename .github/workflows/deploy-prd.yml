@@ -1,0 +1,31 @@
+name: Deploy to Production (Cloud Foundry)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://<tuo-url-produzione>  # opzionale
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installazione CLI Cloud Foundry
+        run: |
+          curl -L "https://packages.cloudfoundry.org/stable?release=linux64" -o cf-cli.tgz
+          tar -xzf cf-cli.tgz
+          sudo mv cf /usr/local/bin
+
+      - name: Login su Cloud Foundry
+        run: |
+          cf api ${{ secrets.CF_API }}
+          cf auth ${{ secrets.CF_USERNAME }} ${{ secrets.CF_PASSWORD }}
+          cf target -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE_PROD }}
+
+      - name: Deploy in Produzione
+        run: cf push --var ENV=prod
