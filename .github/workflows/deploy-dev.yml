@@ -1,0 +1,28 @@
+name: Deploy to Dev (Cloud Foundry)
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installazione CLI Cloud Foundry
+        run: |
+          curl -L "https://packages.cloudfoundry.org/stable?release=linux64" -o cf-cli.tgz
+          tar -xzf cf-cli.tgz
+          sudo mv cf /usr/local/bin
+
+      - name: Login su Cloud Foundry
+        run: |
+          cf api ${{ secrets.CF_API }}
+          cf auth ${{ secrets.CF_USERNAME }} ${{ secrets.CF_PASSWORD }}
+          cf target -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE_DEV }}
+
+      - name: Deploy su ambiente Dev
+        run: cf push --var ENV=dev
