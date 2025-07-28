@@ -10,13 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: 🔄 Checkout codice
+        uses: actions/checkout@v4
 
-      - name: Login su Cloud Foundry
+      - name: 🔧 Setup cf CLI
         run: |
-          cf api ${{ secrets.CF_API }}
-          cf auth ${{ secrets.CF_USERNAME }} ${{ secrets.CF_PASSWORD }}
-          cf target -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE_DEV }}
+          echo "📦 Scarico la CLI di Cloud Foundry..."
+          curl -L "https://packages.cloudfoundry.org/stable?release=linux64" -o cf-cli.tgz
+          tar -xzf cf-cli.tgz
+          sudo mv cf /usr/local/bin
+          cf version
 
-      - name: Deploy su ambiente Dev
-        run: cf push --var ENV=dev
+      - name: 🔐 Login su Cloud Foundry
+        run: |
+          set -e
+          echo "🌐 API endpoint: ${{ secrets.CF_API }}"
+          echo "👤 Login con utente: ${{ secrets.CF_USERNAME }}"
+          cf api "${{ secrets.CF_API }}" -v
+          cf auth "${{ secrets.CF_USERNAME }}" "${{ secrets.CF_PASSWORD }}" -v
+          cf target -o "${{ secrets.CF_ORG }}" -s "${{ secrets.CF_SPACE_DEV }}" -v
+
+      - name: 🚀 Deploy su ambiente Dev
+        run: |
+          set -e
+          echo "📂 Lista file in workspace:"
+          ls -la
+          echo "📦 Avvio cf push..."
+          cf push --var ENV=dev -v
