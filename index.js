@@ -3,11 +3,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-    res.send(`
+  res.send(`
     <!DOCTYPE html>
     <html>
       <head>
-        <title>Hello World</title>
+        <title>Hello World 2</title>
         <style>
           body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
         </style>
@@ -21,5 +21,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server in ascolto sulla porta ${port}`);
+  console.log(`Server in ascolto sulla porta ${port}`);
 });
