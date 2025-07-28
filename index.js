@@ -7,7 +7,7 @@ app.get('/', (req, res) => {
     <!DOCTYPE html>
     <html>
       <head>
-        <title>Hello World 2</title>
+        <title>Hello World</title>
         <style>
           body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
         </style>

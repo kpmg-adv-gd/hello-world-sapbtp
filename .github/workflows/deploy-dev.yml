@@ -34,4 +34,4 @@ jobs:
           echo "📂 Lista file in workspace:"
           ls -la
           echo "📦 Avvio cf push..."
-          cf push --var ENV=dev -v
+          cf push --var ENV=dev
