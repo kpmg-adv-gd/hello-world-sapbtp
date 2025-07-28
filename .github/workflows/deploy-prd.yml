@@ -1,4 +1,4 @@
-name: Deploy to Production (Cloud Foundry)
+name: Deploy to Dev (Cloud Foundry)
 
 on:
   push:
@@ -8,24 +8,34 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://<tuo-url-produzione>  # opzionale
+    environment: CI-CD-PRD
 
     steps:
-      - uses: actions/checkout@v4
+      - name: 🔄 Checkout codice
+        uses: actions/checkout@v4
 
-      - name: Installazione CLI Cloud Foundry
+      - name: Usa manifest per ambiente Dev
+        run: cp manifest-dev.yml manifest.yml
+
+
+      - name: 🔧 Installa cf CLI via dpkg
         run: |
-          curl -L "https://packages.cloudfoundry.org/stable?release=linux64" -o cf-cli.tgz
-          tar -xzf cf-cli.tgz
-          sudo mv cf /usr/local/bin
+          echo "📦 Scarico pacchetto Debian cf CLI..."
+          curl -L "https://packages.cloudfoundry.org/stable?release=debian64" -o cf.deb
+          sudo dpkg -i cf.deb
+          cf version
 
-      - name: Login su Cloud Foundry
+      - name: 🔐 Login su Cloud Foundry
         run: |
-          cf api ${{ secrets.CF_API }}
-          cf auth ${{ secrets.CF_USERNAME }} ${{ secrets.CF_PASSWORD }}
-          cf target -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE_PROD }}
+          set -e
+          echo "🌐 API endpoint: ${{ secrets.CF_API }}"
+          echo "👤 Login con utente: ${{ secrets.CF_USERNAME }}"
+          cf login -a '${{ secrets.CF_API }}' -u '${{ secrets.CF_USERNAME }}' -p '${{ secrets.CF_PASSWORD }}' -o '${{ secrets.CF_ORG }}' -s '${{ secrets.CF_SPACE_DEV }}'
 
-      - name: Deploy in Produzione
-        run: cf push --var ENV=prod
+      - name: 🚀 Deploy su ambiente Dev
+        run: |
+          set -e
+          echo "📂 Lista file in workspace:"
+          ls -la
+          echo "📦 Avvio cf push..."
+          cf push --var ENV=dev
