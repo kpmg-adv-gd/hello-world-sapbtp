@@ -32,13 +32,21 @@ jobs:
           sudo dpkg -i cf.deb
           cf version
 
-      - name: 🔐 Login su Cloud Foundry
+      #- name: 🔐 Login su Cloud Foundry
+      #  run: |
+      #    set -e
+      #    echo "🌐 API endpoint: ${{ vars.CF_API }}"
+      #    echo "👤 Login con utente: ${{ vars.CF_USERNAME }}"
+      #    cf login -a '${{ vars.CF_API }}' -u '${{ vars.CF_USERNAME }}' -p '${{ secrets.CF_PASSWORD }}' -o '${{ vars.CF_ORG }}' -s '${{ vars.CF_SPACE_DEV }}'
+
+      - name: 🔐 Autenticazione con service key (client credentials)
         run: |
           set -e
-          echo "🌐 API endpoint: ${{ vars.CF_API }}"
-          echo "👤 Login con utente: ${{ vars.CF_USERNAME }}"
-          cf login -a '${{ vars.CF_API }}' -u '${{ vars.CF_USERNAME }}' -p '${{ secrets.CF_PASSWORD }}' -o '${{ vars.CF_ORG }}' -s '${{ vars.CF_SPACE_DEV }}'
-
+          echo "🌐 API endpoint: ${{ env.CF_API }}"
+          cf api "${{ env.CF_API }}"
+          cf auth "${{ secrets.CF_CLIENT_ID }}" "${{ secrets.CF_CLIENT_SECRET }}" --client-credentials
+          cf target -o "${{ vars.CF_ORG }}" -s "${{ vars.CF_SPACE_DEV }}"
+    
       - name: 🚀 Deploy su ambiente Dev
         run: |
           set -e
