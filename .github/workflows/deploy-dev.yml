@@ -14,6 +14,13 @@ jobs:
       - name: 🔄 Checkout codice
         uses: actions/checkout@v4
 
+      - name: 🧪 Installa dipendenze e lancia i test
+        run: |
+          echo "📦 Installo dipendenze..."
+          npm install
+          echo "🧪 Eseguo test unitari..."
+          npm test
+
       - name: Usa manifest per ambiente Dev
         run: cp .staging/manifest-dev.yml manifest.yml
 

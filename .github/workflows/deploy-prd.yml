@@ -23,6 +23,7 @@ jobs:
 
       - name: 📄 Usa manifest per ambiente Prd
         run: cp .staging/manifest-prd.yml manifest.yml
+        
 
       - name: 🔧 Installa cf CLI via dpkg
         run: |
