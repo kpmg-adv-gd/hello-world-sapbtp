@@ -1,9 +1,7 @@
 applications:
-  - name: hello-world-sapbtp
+  - name: hello-world-sapbtp-prd
     memory: 128M
     instances: 1
     buildpacks:
       - nodejs_buildpack
     path: .
-    routes:
-      - route: hello-world-sapbtp-prd.example.com
