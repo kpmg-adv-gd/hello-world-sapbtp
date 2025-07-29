@@ -4,10 +4,15 @@
     "description": "Progetto Node.js Hello World pronto per SAP BTP",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js"
+        "start": "node index.js",
+        "test": "mocha \"unit-test/*.test.js\""
     },
     "dependencies": {
         "express": "^4.18.2"
+    },
+    "devDependencies": {
+        "mocha": "^11.7.1",
+        "supertest": "^7.1.4"
     },
     "author": "",
     "license": "ISC"
