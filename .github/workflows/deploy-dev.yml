@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: CI-CD
+    environment: CI-CD-DEV
 
     steps:
       - name: 🔄 Checkout codice
